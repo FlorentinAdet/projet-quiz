@@ -156,7 +156,7 @@
         "difficulty": 3,
         "theme": "History",
         "options": ["Colossus of Rhodes", "Great Pyramid of Giza", "Hanging Gardens of Babylon", "Pharos of Alexandria"],
-        "correct_answer": 0
+        "correct_answer": 3
       },
       "3": {
         "question": "Who wrote the 'I Have a Dream' speech during the American Civil Rights Movement?",
