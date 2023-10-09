@@ -1,5 +1,5 @@
 def main():
-    print("Beinvenue dans le jeu de quiz!")
+    print("Bienvenue dans le jeu de quiz!")
 
-if__name__=="__main__":
+if __name__ == "__main__" :
     main()
