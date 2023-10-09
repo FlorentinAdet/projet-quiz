@@ -1,45 +1,62 @@
 import json
 class Question:
-    def __init__(self, question, options, correct_option, level, category):
+    def __init__(self, question, difficulty, options,  theme, correct_answer):
         self.question = question
+        self.difficulty = difficulty
+        self.theme = theme
         self.options = options
-        self.correct_option = correct_option
-        self.level = level
-        self.category = category
+        self.correct_answer = correct_answer
 
-    def __str__(self):
-        return f"Question: {self.question}\nOptions: {', '.join(self.options)}\nCorrect Option: {self.correct_option}\nLevel: {self.level}\nCategory: {self.category}"
+    def formatJSON(self):
+        new_question = {
+            "question": self.question,
+            "difficulty": self.difficulty,
+            "theme": self.theme,
+            "options": self.options,
+            "correct_answer": self.correct_answer,
+        }
+        return new_question
 
 
 def create_question():
     question = input("Entrez la question : ")
     options = [input(f"Entrez la proposition {i + 1} : ") for i in range(4)]
-    correct_option = int(input("Entrez le numéro de la proposition correcte (1-4) : "))
-    level = input("Entrez le niveau (facile, normal, difficile) : ")
-    category = input("Entrez la catégorie de la question : ")
+    correct_answer = int(input("Entrez le numéro de la proposition correcte (1-4) : "))
+    difficulty = input("Entrez le niveau (facile, normal, difficile) : ")
+    theme = input("Entrez la catégorie de la question : ")
 
-    return Question(question, options, correct_option, level, category)
+    return Question(question, difficulty, options, theme, correct_answer)
 
+def add_question_to_json(question, theme):
+    try:
+        # Lire le contenu existant du fichier JSON
+        with open('questions.json', 'r') as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError:
+        data = {}  # Le fichier n'existe pas encore
+
+    questions_in_theme = data[theme]
+
+    last_id = max(int(id) for id in questions_in_theme.keys())
+    # Incrémenter l'ID pour la nouvelle question
+    new_id = last_id + 1
+    # Ajouter la nouvelle question avec le nouvel ID
+    print(question.formatJSON())
+    data[theme][str(new_id)] = question.formatJSON()
+
+    # Écrire la structure de données mise à jour dans le fichier JSON
+    with open('questions.json', 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
 def main():
-    questions = []
-    while True:
-        print("\nCréation d'une nouvelle question :")
-        new_question = create_question()
-        questions.append(new_question)
-        print("\nQuestion ajoutée avec succès !")
 
-        another = input("Voulez-vous ajouter une autre question ? (Oui/Non) : ")
-        if another.lower() != "oui":
-            break
+    print("\nCréation d'une nouvelle question :")
+    new_question = create_question()
+    add_question_to_json(new_question, "Geography")
+    print("\nQuestion ajoutée avec succès !")
 
-    print("\nQuestions créées :")
-    for i, question in enumerate(questions, start=1):
-        print(f"\nQuestion {i}:\n{question}")
+    print(f"\nQuestion : {new_question}")
 
-    # Enregistrement des questions dans un fichier JSON
-    with open('questions.json', 'w') as json_file:
-        json.dump([vars(q) for q in questions], json_file, indent=4)
 
 if __name__ == "__main__":
     main()
