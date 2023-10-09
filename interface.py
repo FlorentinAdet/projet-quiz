@@ -64,6 +64,22 @@ class afficher_interface:
             time.sleep(1)
             self.temps_restant -= 1
 
+        # Quand le minuteur atteint 0, efface les éléments existants et affiche le score
+        self.label_question.destroy()
+        self.label_score.destroy()
+        self.bouton_a.destroy()
+        self.bouton_b.destroy()
+        self.bouton_c.destroy()
+        self.bouton_d.destroy()
+        self.label_minuteur.destroy()
+        self.progress_bar.destroy()
+        self.afficher_score()
+
     def reaction_bouton(self, choix):
         print(f"Bouton {choix} pressé")
-        self.temps_restant = self.temps_total
+        self.temps_restant = self.temps_total + 1
+
+    def afficher_score(self):
+        # Affiche le score dans la même fenêtre
+        score_label = tk.Label(self.fenetre, text="Score final : X", fg="black")
+        score_label.grid(row=1, column=0, padx=360, pady=10, columnspan=1)
