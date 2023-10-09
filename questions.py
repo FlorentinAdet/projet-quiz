@@ -9,7 +9,6 @@ def load_questions_from_json(file_path):
 def get_random_question(data):
     # Randomly select a theme
     theme = random.choice(list(data.keys()))
-    print(f"Theme: {theme}")
     
     # Randomly select a question from the selected theme
     question_id = random.choice(list(data[theme].keys()))
@@ -25,9 +24,9 @@ def get_random_question(data):
 
 def main():
     theme, question, _, correct_answer = get_random_question(load_questions_from_json('questions.json'))
-    print(theme)
-    print(question)
-    print(correct_answer)
+    print(f"Theme: {theme}")
+    print(f"Question: {question}")
+    print(f"Correct answer: {correct_answer}")
 
 if __name__ == "__main__":
     main()
