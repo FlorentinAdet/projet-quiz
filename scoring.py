@@ -1,5 +1,8 @@
 # scoring.py
 
+# Variables globales
+reponses_correctes_consecutives = 0
+
 # Fonction pour attribuer des points en fonction de la difficulté
 def attribuer_points(difficulte):
     if difficulte == 1:
@@ -23,14 +26,26 @@ def points_bonus_series_consecutives(reponse_correcte):
 # Fonction pour attribuer des points bonus pour les réponses rapides
 def points_bonus_reponse_rapide(temps_de_reponse):
     if temps_de_reponse < 10:  # Si la réponse est donnée en moins de 10 secondes
-        return 1,5
+        return 1.5
     else:
         return 1
 
-def scoring(temps_de_reponse, reponse_correcte, difficulte):
+# Fonction de scoring complète
+def scoring(difficulte, reponse_correcte, temps_de_reponse):
     A = attribuer_points(difficulte)
-    B = points_bonus_reponse_rapide(temps_de_reponse)
-    C = points_bonus_series_consecutives(reponse_correcte)
-    resultat = (A+B)*C
+    B = points_bonus_series_consecutives(reponse_correcte)
+    C = points_bonus_reponse_rapide(temps_de_reponse)
+    resultat = (A + B) * C
 
     return resultat
+
+def main():
+    difficulte = 2  # Niveau de difficulté
+    reponse_correcte = True  # Si la réponse est correcte
+    temps_de_reponse = 5  # Temps de réponse en secondes
+
+    score = scoring(difficulte, reponse_correcte, temps_de_reponse)
+    print("Score final :", score)
+
+if __name__ == "__main__":
+    main()
