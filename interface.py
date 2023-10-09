@@ -4,72 +4,66 @@ import threading
 import time
 
 
-def afficher_interface():
-    #################################
-    #   PARAMETRES DE LA FENETRE    #
-    #################################
+class afficher_interface:
+    def __init__(self):
+        self.temps_total = 20  # Temps total en secondes
+        self.temps_restant = self.temps_total
 
-    fenetre = tk.Tk()
-    fenetre.title(" " * 98 + "-- QUIZ --")
-    fenetre.resizable(False, False)
-    largeur = 720
-    hauteur = 480
-    fenetre.geometry(f"{largeur}x{hauteur}")
+        self.fenetre = tk.Tk()
+        self.fenetre.title(" " * 98 + "-- QUIZ --")
+        self.fenetre.resizable(False, False)
+        self.largeur = 720
+        self.hauteur = 480
+        self.fenetre.geometry(f"{self.largeur}x{self.hauteur}")
 
-    # Couleurs Personnalisées
-    couleur_fond = "#2F2F3F"
-    couleur_gris_sombre = "#1F0F1F"
-    couleur_texte_bouton = "white"
-    fenetre.configure(bg=couleur_fond)
+        self.couleur_fond = "#2F2F3F"
+        self.couleur_gris_sombre = "#1F0F1F"
+        self.couleur_texte_bouton = "white"
+        self.fenetre.configure(bg=self.couleur_fond)
 
-    #############################
-    #   CONTENU DE LA FENETRE   #
-    #############################
+        self.label_score = tk.Label(self.fenetre, text="Score : 0", fg="white", bg=self.couleur_fond)
+        self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
-    # Score
-    label_score = tk.Label(fenetre, text="Score : 0", fg="white", bg=couleur_fond)
-    label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)  # Placer le label en haut à droite
+        self.label_question = tk.Label(self.fenetre, text="QUESTION", fg="white", bg=self.couleur_fond)
+        self.label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)
 
-    # Question
-    label_question = tk.Label(fenetre, text="QUESTION", fg="white", bg=couleur_fond)
-    label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)  # Placer le label au milieu
+        self.bouton_a = tk.Button(self.fenetre, text="A", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_b = tk.Button(self.fenetre, text="B", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_c = tk.Button(self.fenetre, text="C", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_d = tk.Button(self.fenetre, text="D", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
 
-    # Boutons "A", "B", "C" et "D"
-    boutons_width = 30
-    bouton_a = tk.Button(fenetre, text="A", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
-    bouton_b = tk.Button(fenetre, text="B", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
-    bouton_c = tk.Button(fenetre, text="C", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
-    bouton_d = tk.Button(fenetre, text="D", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
+        self.bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
+        self.bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))
+        self.bouton_c.grid(row=2, column=0, padx=5, pady=(0, 20))
+        self.bouton_d.grid(row=2, column=1, padx=60, pady=(0, 20))
 
-    bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
-    bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))
-    bouton_c.grid(row=2, column=0, padx=5, pady=(0, 20))
-    bouton_d.grid(row=2, column=1, padx=60, pady=(0, 20))
+        self.bouton_a.config(command=lambda: self.reaction_bouton("A"))
+        self.bouton_b.config(command=lambda: self.reaction_bouton("B"))
+        self.bouton_c.config(command=lambda: self.reaction_bouton("C"))
+        self.bouton_d.config(command=lambda: self.reaction_bouton("D"))
 
-    # Barre de chargement
-    progress_bar = ttk.Progressbar(fenetre, mode="determinate", length=largeur)
-    progress_bar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+        self.progress_bar = ttk.Progressbar(self.fenetre, mode="determinate", length=self.largeur)
+        self.progress_bar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
-    # Minuteur
-    def mise_a_jour_minuteur():
-        temps_total = 20  # Temps total en secondes (par exemple, 60 secondes)
-        temps_restant = temps_total
-        while temps_restant >= 0:
-            pourcentage_restant = (temps_restant / temps_total) * 100
-            progress_bar["value"] = pourcentage_restant
+        self.label_minuteur = tk.Label(self.fenetre, text=f"Temps restant : {self.temps_restant} s", fg="white", bg=self.couleur_fond)
+        self.label_minuteur.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+
+        self.minuteur_thread = threading.Thread(target=self.mise_a_jour_minuteur)
+        self.minuteur_thread.start()
+
+        self.fenetre.grid_rowconfigure(0, weight=1)
+        self.fenetre.grid_rowconfigure(4, weight=1)
+        self.fenetre.grid_columnconfigure(0, weight=1)
+        self.fenetre.grid_columnconfigure(3, weight=1)
+
+    def mise_a_jour_minuteur(self):
+        while self.temps_restant >= 0:
+            pourcentage_restant = (self.temps_restant / self.temps_total) * 100
+            self.progress_bar["value"] = pourcentage_restant
+            self.label_minuteur.config(text=f"Temps restant : {self.temps_restant} s")
             time.sleep(1)
-            temps_restant -= 1
+            self.temps_restant -= 1
 
-    minuteur_thread = threading.Thread(target=mise_a_jour_minuteur)
-    minuteur_thread.start()
-
-    # Configure la grille pour centrer le contenu
-    fenetre.grid_rowconfigure(0, weight=1)
-    fenetre.grid_rowconfigure(4, weight=1)
-    fenetre.grid_columnconfigure(0, weight=1)
-    fenetre.grid_columnconfigure(3, weight=1)
-
-    fenetre.mainloop()
-
-
-afficher_interface()
+    def reaction_bouton(self, choix):
+        print(f"Bouton {choix} pressé")
+        self.temps_restant = self.temps_total
