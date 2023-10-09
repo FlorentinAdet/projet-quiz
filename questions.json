@@ -1,0 +1,211 @@
+{
+    "Geography": {
+      "1": {
+        "question": "What are the five oceans of the world?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "2": {
+        "question": "Name the largest desert in Africa.",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "3": {
+        "question": "Which river flows through Cairo, the capital of Egypt?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "4": {
+        "question": "What is the tallest mountain in the Alps?",
+        "difficulty": 3,
+        "theme": "Geography"
+      },
+      "5": {
+        "question": "In which country would you find the Atacama Desert?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "6": {
+        "question": "What is the official language of Brazil?",
+        "difficulty": 1,
+        "theme": "Geography"
+      },
+      "7": {
+        "question": "Which African country is known as the 'Pearl of Africa'?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "8": {
+        "question": "What is the capital of New Zealand?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "9": {
+        "question": "Which U.S. state is known as the 'Sunshine State'?",
+        "difficulty": 2,
+        "theme": "Geography"
+      },
+      "10": {
+        "question": "What is the southernmost continent on Earth?",
+        "difficulty": 3,
+        "theme": "Geography"
+      }
+    },
+    "Science": {
+      "1": {
+        "question": "What is the chemical symbol for potassium?",
+        "difficulty": 2,
+        "theme": "Science"
+      },
+      "2": {
+        "question": "Who is known as the father of modern chemistry?",
+        "difficulty": 3,
+        "theme": "Science"
+      },
+      "3": {
+        "question": "What is the process by which plants make their own food using sunlight?",
+        "difficulty": 2,
+        "theme": "Science"
+      },
+      "4": {
+        "question": "What is the smallest planet in our solar system?",
+        "difficulty": 2,
+        "theme": "Science"
+      },
+      "5": {
+        "question": "Who is considered the founder of modern physics due to his theory of relativity?",
+        "difficulty": 3,
+        "theme": "Science"
+      },
+      "6": {
+        "question": "What gas makes up the majority of Earth's atmosphere?",
+        "difficulty": 1,
+        "theme": "Science"
+      },
+      "7": {
+        "question": "What is the chemical formula for water?",
+        "difficulty": 2,
+        "theme": "Science"
+      },
+      "8": {
+        "question": "What is the study of earthquakes called?",
+        "difficulty": 2,
+        "theme": "Science"
+      },
+      "9": {
+        "question": "Which gas do humans exhale when they breathe out?",
+        "difficulty": 1,
+        "theme": "Science"
+      },
+      "10": {
+        "question": "What is the process by which plants and animals evolve over time?",
+        "difficulty": 2,
+        "theme": "Science"
+      }
+    },
+    "History": {
+      "1": {
+        "question": "Who was the first woman to fly solo across the Atlantic Ocean?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "2": {
+        "question": "Which ancient wonder of the world was a lighthouse located on the island of Pharos?",
+        "difficulty": 3,
+        "theme": "History"
+      },
+      "3": {
+        "question": "Who wrote the 'I Have a Dream' speech during the American Civil Rights Movement?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "4": {
+        "question": "Which U.S. president is known for issuing the Emancipation Proclamation?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "5": {
+        "question": "Who was the first emperor of the Roman Empire?",
+        "difficulty": 3,
+        "theme": "History"
+      },
+      "6": {
+        "question": "What event marked the beginning of World War II in Europe?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "7": {
+        "question": "Who was the leader of the Indian independence movement against British colonial rule?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "8": {
+        "question": "What ancient civilization built the city of Machu Picchu?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "9": {
+        "question": "Who was the first woman to win a Nobel Prize?",
+        "difficulty": 2,
+        "theme": "History"
+      },
+      "10": {
+        "question": "Which famous explorer is credited with circumnavigating the Earth?",
+        "difficulty": 3,
+        "theme": "History"
+      }
+    },
+    "Entertainment": {
+      "1": {
+        "question": "Who played the character of Jack Dawson in the movie 'Titanic'?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "2": {
+        "question": "What is the name of the wizarding school in the Harry Potter series?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "3": {
+        "question": "Which animated film features a young lion named Simba?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "4": {
+        "question": "Who is known for the role of Captain Jack Sparrow in the 'Pirates of the Caribbean' series?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "5": {
+        "question": "What is the highest-grossing film of all time (as of my last knowledge update in September 2021)?",
+        "difficulty": 3,
+        "theme": "Entertainment"
+      },
+      "6": {
+        "question": "Who is the creator of the fictional detective Sherlock Holmes?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "7": {
+        "question": "In which film did Humphrey Bogart say, 'Here's looking at you, kid'?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "8": {
+        "question": "Who wrote the epic fantasy series 'A Song of Ice and Fire'?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "9": {
+        "question": "What is the name of the fictional wizarding sport played on broomsticks in the Harry Potter series?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      },
+      "10": {
+        "question": "Who directed the 1994 film 'Pulp Fiction'?",
+        "difficulty": 2,
+        "theme": "Entertainment"
+      }
+    }
+  }
+  
