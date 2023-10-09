@@ -6,11 +6,14 @@ import time
 
 class afficher_interface:
     def __init__(self):
-        self.temps_total = 20  # Temps total en secondes
+        self.temps_total = 2  # Temps total en secondes
         self.temps_restant = self.temps_total
+        self.label_leaderboard = None
+        self.label_score_final = None
+        self.leaderboard = {}
 
         self.fenetre = tk.Tk()
-        self.fenetre.title(" " * 98 + "-- QUIZ --")
+        self.fenetre.title(" " * 96 + "-- QUIZ --")
         self.fenetre.resizable(False, False)
         self.largeur = 720
         self.hauteur = 480
@@ -21,7 +24,8 @@ class afficher_interface:
         self.couleur_texte_bouton = "white"
         self.fenetre.configure(bg=self.couleur_fond)
 
-        self.label_score = tk.Label(self.fenetre, text="Score : 0", fg="white", bg=self.couleur_fond)
+        self.int_score = 0
+        self.label_score = tk.Label(self.fenetre, text=f"Score : {self.int_score}", fg="white", bg=self.couleur_fond)
         self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
         self.label_question = tk.Label(self.fenetre, text="QUESTION", fg="white", bg=self.couleur_fond)
@@ -34,8 +38,8 @@ class afficher_interface:
 
         self.bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
         self.bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))
-        self.bouton_c.grid(row=2, column=0, padx=5, pady=(0, 20))
-        self.bouton_d.grid(row=2, column=1, padx=60, pady=(0, 20))
+        self.bouton_c.grid(row=2, column=0, padx=5, pady=(30, 20))
+        self.bouton_d.grid(row=2, column=1, padx=60, pady=(30, 20))
 
         self.bouton_a.config(command=lambda: self.reaction_bouton("A"))
         self.bouton_b.config(command=lambda: self.reaction_bouton("B"))
@@ -46,7 +50,7 @@ class afficher_interface:
         self.progress_bar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
         self.label_minuteur = tk.Label(self.fenetre, text=f"Temps restant : {self.temps_restant} s", fg="white", bg=self.couleur_fond)
-        self.label_minuteur.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        self.label_minuteur.grid(row=3, column=0, columnspan=2, padx=10, pady=30)
 
         self.minuteur_thread = threading.Thread(target=self.mise_a_jour_minuteur)
         self.minuteur_thread.start()
@@ -81,5 +85,41 @@ class afficher_interface:
 
     def afficher_score(self):
         # Affiche le score dans la même fenêtre
-        score_label = tk.Label(self.fenetre, text="Score final : X", fg="black")
-        score_label.grid(row=1, column=0, padx=360, pady=10, columnspan=1)
+        self.leaderboard = [
+            ["Joueur 1", 457],
+            ["Joueur 2", 256],
+            ["Joueur 3", 253],
+            ["Joueur 4", 224],
+            ["Joueur 5", 189],
+            ["Joueur 6", 180],
+            ["Joueur 7", 176],
+            ["Joueur 8", 145],
+            ["Joueur 9", 142],
+            ["Joueur 10", 130]
+        ]
+
+        leaderboard_text = "#•• LEADERBOARD ••#\n\n"
+        for joueur, score in self.leaderboard:
+            leaderboard_text += f"{joueur} : {score}\n"
+        leaderboard_text += "\n#•••••••••••••••••••#"
+
+        self.label_leaderboard = tk.Label(
+            self.fenetre,
+            text=leaderboard_text,
+            fg="white",
+            bg=self.couleur_fond
+        )
+
+        self.label_score_final = tk.Label(self.fenetre, text=f"Score final : {self.int_score}", fg="white", bg=self.couleur_fond)
+
+        self.entry_nom_joueur = tk.Entry(self.fenetre)
+        self.bouton_enregistrer = tk.Button(self.fenetre, text="Enregistrer le score", width=15, height=1,
+                                            bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_recommencer = tk.Button(self.fenetre, text="Recommencer", width=12, height=1,
+                                            bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+
+        self.label_leaderboard.grid(row=1, column=0, padx=300, pady=10, columnspan=1)
+        self.label_score_final.grid(row=2, column=0, padx=300, pady=10, columnspan=1)
+        self.entry_nom_joueur.grid(row=3, column=0, padx=0, pady=10, columnspan=2)
+        self.bouton_enregistrer.grid(row=4, column=0, padx=5, pady=0)
+        self.bouton_recommencer.grid(row=5, column=0, padx=5, pady=20)
