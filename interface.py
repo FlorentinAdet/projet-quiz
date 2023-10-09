@@ -17,8 +17,8 @@ def afficher_interface():
     fenetre.geometry(f"{largeur}x{hauteur}")
 
     # Couleurs Personnalisées
-    couleur_fond = "#3F2F3F"
-    couleur_gris_sombre = "#0F0F0F"
+    couleur_fond = "#2F2F3F"
+    couleur_gris_sombre = "#1F0F1F"
     couleur_texte_bouton = "white"
     fenetre.configure(bg=couleur_fond)
 
@@ -32,18 +32,14 @@ def afficher_interface():
 
     # Question
     label_question = tk.Label(fenetre, text="QUESTION", fg="white", bg=couleur_fond)
-    label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=10)  # Placer le label au milieu
+    label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)  # Placer le label au milieu
 
     # Boutons "A", "B", "C" et "D"
     boutons_width = 30
-    bouton_a = tk.Button(fenetre, text="A", width=boutons_width, height=2, bg=couleur_gris_sombre,
-                         fg=couleur_texte_bouton)
-    bouton_b = tk.Button(fenetre, text="B", width=boutons_width, height=2, bg=couleur_gris_sombre,
-                         fg=couleur_texte_bouton)
-    bouton_c = tk.Button(fenetre, text="C", width=boutons_width, height=2, bg=couleur_gris_sombre,
-                         fg=couleur_texte_bouton)
-    bouton_d = tk.Button(fenetre, text="D", width=boutons_width, height=2, bg=couleur_gris_sombre,
-                         fg=couleur_texte_bouton)
+    bouton_a = tk.Button(fenetre, text="A", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
+    bouton_b = tk.Button(fenetre, text="B", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
+    bouton_c = tk.Button(fenetre, text="C", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
+    bouton_d = tk.Button(fenetre, text="D", width=boutons_width, height=2, bg=couleur_gris_sombre, fg=couleur_texte_bouton)
 
     bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
     bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))
@@ -64,13 +60,12 @@ def afficher_interface():
             time.sleep(1)
             temps_restant -= 1
 
-
     minuteur_thread = threading.Thread(target=mise_a_jour_minuteur)
     minuteur_thread.start()
 
     # Configure la grille pour centrer le contenu
     fenetre.grid_rowconfigure(0, weight=1)
-    fenetre.grid_rowconfigure(5, weight=1)
+    fenetre.grid_rowconfigure(4, weight=1)
     fenetre.grid_columnconfigure(0, weight=1)
     fenetre.grid_columnconfigure(3, weight=1)
 
