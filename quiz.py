@@ -1,5 +1,10 @@
+from interface import afficher_interface
+
 def main():
-    print("Beinvenue dans le jeu de quiz!")
+    app = afficher_interface()
+    app.fenetre.mainloop()
+
 
 if __name__ =="__main__":
  main()
+
