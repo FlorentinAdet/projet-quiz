@@ -6,7 +6,7 @@ import time
 
 class afficher_interface:
     def __init__(self):
-        self.temps_total = 2  # Temps total en secondes
+        self.temps_total = 20  # Temps total en secondes
         self.temps_restant = self.temps_total
         self.label_leaderboard = None
         self.label_score_final = None
