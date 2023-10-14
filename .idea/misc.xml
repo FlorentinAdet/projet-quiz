@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
+<<<<<<< HEAD
     <option name="sdkName" value="Python 3.9 (projet-quiz)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (projet-quiz)" project-jdk-type="Python SDK" />
+=======
+    <option name="sdkName" value="Python 3.11" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11" project-jdk-type="Python SDK" />
+>>>>>>> 2bfd30b554bd436615fc284537da2963b861e21b
 </project>
