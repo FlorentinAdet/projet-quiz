@@ -19,6 +19,7 @@ class Question:
 
 
 def create_question():
+    # Récupérer les entrées de l'utilisateur du formulaire
     question = input("Entrez la question : ")
     options = [input(f"Entrez la proposition {i + 1} : ") for i in range(4)]
     correct_answer = int(input("Entrez le numéro de la proposition correcte (1-4) : "))
