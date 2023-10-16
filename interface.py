@@ -1,17 +1,14 @@
 import tkinter as tk
-from tkinter import ttk  # Importer le module ttk pour Progressbar
+from tkinter import ttk
 import threading
 import time
-
 
 from questions import load_questions_from_json, get_random_question
 from scoring import Score
 
-
 class afficher_interface:
     def __init__(self):
         theme, question, options, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
-
 
         self.temps_total = 10  # Temps total en secondes
         self.temps_restant = self.temps_total
@@ -36,7 +33,7 @@ class afficher_interface:
         self.label_score = tk.Label(self.fenetre, text=f"Vie : {self.int_vie} | Score : {self.int_score}", fg="white", bg=self.couleur_fond)
         self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
-        self.label_question = tk.Label(self.fenetre, text=f"{question}", fg="white", bg=self.couleur_fond)
+        self.label_question = tk.Label(self.fenetre, text=f"{question}\n\nDifficulty : {difficulty}/3", fg="white", bg=self.couleur_fond)
         self.label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)
 
         self.bouton_a = tk.Button(self.fenetre, text=f"A) {options[0]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
@@ -105,8 +102,6 @@ class afficher_interface:
             if self.int_vie == 0:
                 self.temps_restant = 0
 
-
-
         self.temps_restant = self.temps_total + 1
         if self.int_vie == 0:
             self.temps_restant = 0
@@ -114,7 +109,7 @@ class afficher_interface:
 
         theme, question, options, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
 
-        self.label_question.config(text=question)
+        self.label_question.config(text=f"{question}\n\nDifficulty : {difficulty}/3")
         self.bouton_a.config(text=f"A) {options[0]}")
         self.bouton_b.config(text=f"B) {options[1]}")
         self.bouton_c.config(text=f"C) {options[2]}")
