@@ -1,4 +1,5 @@
 import json
+import random
 class Question:
     def __init__(self, question, difficulty, options,  theme, correct_answer):
         self.question = question
@@ -49,8 +50,36 @@ def add_question_to_json(question, theme):
     with open('questions.json', 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
-def main():
+def bonus5050(question): #question sous format JSON
+    modified_question = question.copy()
 
+    # Identifiez la position de la réponse correcte
+    correct_answer_index = modified_question["correct_answer"]
+
+    # Retirez la réponse correcte de la liste des options
+    correct_answer = modified_question["options"][correct_answer_index]
+    modified_question["options"].pop(correct_answer_index)
+
+    # Choisissez une réponse incorrecte au hasard parmi les options restantes
+    random_incorrect_answer = random.choice(modified_question["options"])
+
+    # Créez la liste finale des réponses, en incluant la réponse correcte et une réponse incorrecte
+    final_answers = [correct_answer, random_incorrect_answer]
+
+    # Mélangez les réponses pour qu'elles apparaissent dans un ordre aléatoire
+    random.shuffle(final_answers)
+
+    # Mettez à jour la question avec les réponses modifiées
+    modified_question["options"] = final_answers
+
+    return modified_question
+
+
+# Affichez la question modifiée au format JSON
+# print(json.dumps(modified_question, indent=4))
+
+
+def main():
     print("\nCréation d'une nouvelle question :")
     new_question = create_question()
     add_question_to_json(new_question, "Geography")
