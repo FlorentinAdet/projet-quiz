@@ -1,56 +1,76 @@
+from interface import afficher_interface
+from bonus import Question
 from scoring import Score
 from save import ScoreRepository
-import random
+import json
+import threading
 import time
 
-# Questions, réponses, corrections
-questions = ["Quelle est la capitale de la France ?", "Qui a écrit Le Petit Prince ?",
-             "Quelle est la racine carrée de 9 ?"]
-reponses = [["Paris", "Marseille", "Lyon"], ["Jules Verne", "Antoine de Saint-Exupéry", "Victor Hugo"], ["3", "2", "4"]]
-corrections = [0, 1, 0]
 
-# Initialisation du repo
-repo = ScoreRepository("scores.json")
+def charger_questions(theme):
+    try:
+        with open('questions.json', 'r') as json_file:
+            data = json.load(json_file)
+            return data.get(theme, {})
+    except FileNotFoundError:
+        return {}
 
-# Variable pour cumuler les scores
-score_total = 0
 
-# Boucle de jeu
-for i in range(3):
-
-    print(questions[i])
-
-    for j, r in enumerate(reponses[i]):
-        print(f"{j + 1}. {r}")
-
-    temps_debut = time.time()
-    reponse_joueur = input("Votre réponse: ")
-    temps_fin = time.time()
-
-    # Vérification réponse
-    if int(reponse_joueur) - 1 == corrections[i]:
-        print("Bonne réponse !")
-        reponse_correcte = True
-    else:
-        print("Mauvaise réponse !")
-        reponse_correcte = False
-
-    # Calcul du score
+def effectuer_quiz(theme):
+    questions_theme = charger_questions(theme)
+    app = afficher_interface()
     score = Score()
-    points = score.attribuer_points(i + 1)
-    bonus_consec = score.points_bonus_series_consecutives(reponse_correcte, score.reponses_correctes_consecutives)
-    bonus_rapidite = score.points_bonus_reponse_rapide(temps_fin - temps_debut)
-    score_tour = points * bonus_consec * bonus_rapidite
+    score_total = 0
 
-    print(f"Vous avez gagné {score_tour} points !");
+    def mise_a_jour_interface():
+        if not questions_theme:
+            app.afficher_score_final(score_total)
+            pseudo = input("Entrez votre pseudo : ")
+            repo = ScoreRepository("scores.json")
+            donnees = repo.ajouter_score(score_total, pseudo)
+            print("Nouveau score ajouté !")
+            print(donnees)
+        else:
+            question_id, question_data = questions_theme.popitem()
+            question = question_data["question"]
+            options = question_data["options"]
+            reponse_correcte = question_data["correct_answer"]
+            difficulte = question_data["difficulty"]
+            app.mise_a_jour_question(question, options, difficulte, reponse_correcte)
+            app.reponse = None
+            app.temps_restant = 20
+            t = threading.Thread(target=verifier_reponse, args=(question_data,))
+            t.start()
 
-    # Cumul des scores
-    score_total += score_tour
+    def verifier_reponse(question_data):
+        while app.temps_restant > 0:
+            time.sleep(1)
+            app.temps_restant -= 1
+            app.mise_a_jour_minuteur(app.temps_restant)
 
-# Demande du nom
-nom_joueur = input("Entrez votre nom : ")
+        if app.reponse is not None:
+            nonlocal score_total
+            if app.reponse == question_data["correct_answer"]:
+                points = score.attribuer_points(question_data["difficulty"])
+                bonus_series = score.points_bonus_series_consecutives(True, score.reponses_correctes_consecutives)
+                score_total += points * bonus_series
+            app.reinitialiser_interface()
+            mise_a_jour_interface()
 
-# Sauvegarde du score total
-repo.ajouter_score(score_total, nom_joueur)
+    mise_a_jour_interface()
+    app.fenetre.mainloop()
 
-print("Scores enregistrés :", repo.obtenir_donnees())
+
+def main():
+    print("Bienvenue dans le Quiz !")
+    theme = input("Choisissez un thème (Geography, Science, History, Entertainment) : ")
+
+    if theme not in ["Geography", "Science", "History", "Entertainment"]:
+        print("Thème invalide. Choisissez parmi les thèmes disponibles.")
+        return
+
+    effectuer_quiz(theme)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,7 @@
 from interface import afficher_interface
 
 def main():
+
     app = afficher_interface()
     app.fenetre.mainloop()
 
