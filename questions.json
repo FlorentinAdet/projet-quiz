@@ -277,6 +277,54 @@
                 "Adaptation"
             ],
             "correct_answer": 0
+        },
+        "11": {
+            "question": "raezreza",
+            "difficulty": 1,
+            "theme": "Science",
+            "options": [
+                "reazrezat",
+                "ezarezat",
+                "ezateza",
+                "eazreaz"
+            ],
+            "correct_answer": 1
+        },
+        "12": {
+            "question": "feaz",
+            "difficulty": 2,
+            "theme": "Science",
+            "options": [
+                "faezf",
+                "ezafeza",
+                "fezaz",
+                "faez"
+            ],
+            "correct_answer": 0
+        },
+        "13": {
+            "question": "reazteaz",
+            "difficulty": 3,
+            "theme": "Science",
+            "options": [
+                "teazr",
+                "rezatatea",
+                "teazta",
+                "ta"
+            ],
+            "correct_answer": 0
+        },
+        "14": {
+            "question": "fdsqfeza",
+            "difficulty": 3,
+            "theme": "Science",
+            "options": [
+                "rezatezatrezar",
+                "ezareza",
+                "rezataezt",
+                "ezat"
+            ],
+            "correct_answer": 0
         }
     },
     "History": {
@@ -397,6 +445,30 @@
                 "Christopher Columbus",
                 "James Cook",
                 "Vasco da Gama"
+            ],
+            "correct_answer": 0
+        },
+        "11": {
+            "question": "ezarr",
+            "difficulty": 2,
+            "theme": "History",
+            "options": [
+                "feza",
+                "agezagaz",
+                "azega",
+                "aezg"
+            ],
+            "correct_answer": 1
+        },
+        "12": {
+            "question": "areazraze",
+            "difficulty": 2,
+            "theme": "History",
+            "options": [
+                "reza",
+                "earzer",
+                "reazteazt",
+                "teaz"
             ],
             "correct_answer": 0
         }
@@ -521,6 +593,18 @@
                 "Christopher Nolan"
             ],
             "correct_answer": 0
+        },
+        "11": {
+            "question": "fezarz",
+            "difficulty": 2,
+            "theme": "Entertainment",
+            "options": [
+                "rezareza",
+                "rzaeta",
+                "tatat",
+                "aaa"
+            ],
+            "correct_answer": 1
         }
     }
 }
