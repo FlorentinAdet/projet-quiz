@@ -3,11 +3,15 @@ from tkinter import ttk  # Importer le module ttk pour Progressbar
 import threading
 import time
 
+
 from questions import load_questions_from_json, get_random_question
+from scoring import Score
+
 
 class afficher_interface:
     def __init__(self):
-        theme, question, options, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+        theme, question, options, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
+
 
         self.temps_total = 10  # Temps total en secondes
         self.temps_restant = self.temps_total
@@ -29,7 +33,7 @@ class afficher_interface:
         self.fenetre.configure(bg=self.couleur_fond)
 
         self.int_score = 0
-        self.label_score = tk.Label(self.fenetre, text=f"Score : {self.int_score}", fg="white", bg=self.couleur_fond)
+        self.label_score = tk.Label(self.fenetre, text=f"Vie : {self.int_vie} | Score : {self.int_score}", fg="white", bg=self.couleur_fond)
         self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
         self.label_question = tk.Label(self.fenetre, text=f"{question}", fg="white", bg=self.couleur_fond)
@@ -41,6 +45,7 @@ class afficher_interface:
         self.bouton_d = tk.Button(self.fenetre, text=f"D) {options[3]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
 
         self.correct_answer = correct_answer
+        self.difficulty = difficulty
 
         self.bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
         self.bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))
@@ -65,7 +70,8 @@ class afficher_interface:
         self.fenetre.grid_rowconfigure(4, weight=1)
         self.fenetre.grid_columnconfigure(0, weight=1)
         self.fenetre.grid_columnconfigure(3, weight=1)
-
+        self.score = Score()
+        self.correct_answer = None
     def mise_a_jour_minuteur(self):
 
         while self.temps_restant >= 0:
@@ -88,17 +94,25 @@ class afficher_interface:
 
     def reaction_bouton(self, choix):
         if choix == self.correct_answer:
-            self.int_score += 1
+            points = self.score.attribuer_points(self.difficulty)
+            bonus_series = self.score.points_bonus_series_consecutives(True,self.score.reponses_correctes_consecutives)
+            self.int_score += points * bonus_series
             self.label_score.config(text=f"Score : {self.int_score}")
-            self.int_vie = 3
+            self.score.reponses_correctes_consecutives += 1
+        else:
+            self.int_vie -= 1
+            self.score.reponses_correctes_consecutives = 0  # Réinitialise la série de bonnes réponses en cas de mauvaise réponse
+            if self.int_vie == 0:
+                self.temps_restant = 0
 
 
-        self.int_vie -= 1
+
         self.temps_restant = self.temps_total + 1
         if self.int_vie == 0:
             self.temps_restant = 0
+        self.label_score.config(text=f"Vie : {self.int_vie}  |  Score : {self.int_score}")
 
-        theme, question, options, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+        theme, question, options, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
 
         self.label_question.config(text=question)
         self.bouton_a.config(text=f"A) {options[0]}")
@@ -112,7 +126,6 @@ class afficher_interface:
         self.bouton_d.config(command=lambda: self.reaction_bouton(f"{options[3]}"))
 
         self.correct_answer = correct_answer
-
     def afficher_score(self):
         # Affiche le score dans la même fenêtre
         self.leaderboard = [
