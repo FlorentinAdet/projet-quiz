@@ -19,15 +19,17 @@ def get_random_question(data):
     options = question_data['options']
     correct_answer_index = question_data['correct_answer']
     correct_answer = options[correct_answer_index]
+    difficulty = question_data['difficulty']
 
-    return theme, question, options, correct_answer
+    return theme, question, options, correct_answer, difficulty
 
-#def main():
-#    theme, question, _, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+# def main():
+#    theme, question, _, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
 #    print(f"Theme: {theme}")
 #    print(f"Question: {question}")
 #    print(f"Correct answer: {correct_answer}")
+#    print(f"Difficulty: {difficulty}")
 
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    main()
 
