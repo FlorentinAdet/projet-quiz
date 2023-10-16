@@ -3,9 +3,14 @@ from tkinter import ttk  # Importer le module ttk pour Progressbar
 import threading
 import time
 
+from questions import load_questions_from_json, get_random_question
 
 class afficher_interface:
     def __init__(self):
+        theme, question, options, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+
+
+
         self.temps_total = 20  # Temps total en secondes
         self.temps_restant = self.temps_total
         self.label_leaderboard = None
@@ -31,10 +36,12 @@ class afficher_interface:
         self.label_question = tk.Label(self.fenetre, text="QUESTION", fg="white", bg=self.couleur_fond)
         self.label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)
 
-        self.bouton_a = tk.Button(self.fenetre, text="A", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
-        self.bouton_b = tk.Button(self.fenetre, text="B", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
-        self.bouton_c = tk.Button(self.fenetre, text="C", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
-        self.bouton_d = tk.Button(self.fenetre, text="D", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_a = tk.Button(self.fenetre, text=f"A) {options[0]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_b = tk.Button(self.fenetre, text=f"B) {options[1]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_c = tk.Button(self.fenetre, text=f"C) {options[2]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+        self.bouton_d = tk.Button(self.fenetre, text=f"D) {options[3]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
+
+        self.correct_answer = correct_answer
 
         self.bouton_a.grid(row=1, column=0, padx=5, pady=(20, 0))
         self.bouton_b.grid(row=1, column=1, padx=60, pady=(20, 0))

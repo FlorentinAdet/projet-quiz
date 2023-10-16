@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="PYTHON_MODULE" version="4">
+<module version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/venv" />
-    </content>
-<<<<<<< HEAD
-    <orderEntry type="jdk" jdkName="Python 3.9 (projet-quiz)" jdkType="Python SDK" />
-=======
     <orderEntry type="inheritedJdk" />
->>>>>>> 2bfd30b554bd436615fc284537da2963b861e21b
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -22,12 +22,12 @@ def get_random_question(data):
 
     return theme, question, options, correct_answer
 
-def main():
-    theme, question, _, correct_answer = get_random_question(load_questions_from_json('questions.json'))
-    print(f"Theme: {theme}")
-    print(f"Question: {question}")
-    print(f"Correct answer: {correct_answer}")
+#def main():
+#    theme, question, _, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+#    print(f"Theme: {theme}")
+#    print(f"Question: {question}")
+#    print(f"Correct answer: {correct_answer}")
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
 
