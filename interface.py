@@ -9,13 +9,12 @@ class afficher_interface:
     def __init__(self):
         theme, question, options, correct_answer = get_random_question(load_questions_from_json('questions.json'))
 
-
-
-        self.temps_total = 20  # Temps total en secondes
+        self.temps_total = 10  # Temps total en secondes
         self.temps_restant = self.temps_total
         self.label_leaderboard = None
         self.label_score_final = None
         self.leaderboard = {}
+        self.int_vie = 3
 
         self.fenetre = tk.Tk()
         self.fenetre.title(" " * 96 + "-- QUIZ --")
@@ -33,7 +32,7 @@ class afficher_interface:
         self.label_score = tk.Label(self.fenetre, text=f"Score : {self.int_score}", fg="white", bg=self.couleur_fond)
         self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
-        self.label_question = tk.Label(self.fenetre, text="QUESTION", fg="white", bg=self.couleur_fond)
+        self.label_question = tk.Label(self.fenetre, text=f"{question}", fg="white", bg=self.couleur_fond)
         self.label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)
 
         self.bouton_a = tk.Button(self.fenetre, text=f"A) {options[0]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
@@ -48,10 +47,10 @@ class afficher_interface:
         self.bouton_c.grid(row=2, column=0, padx=5, pady=(30, 20))
         self.bouton_d.grid(row=2, column=1, padx=60, pady=(30, 20))
 
-        self.bouton_a.config(command=lambda: self.reaction_bouton("A"))
-        self.bouton_b.config(command=lambda: self.reaction_bouton("B"))
-        self.bouton_c.config(command=lambda: self.reaction_bouton("C"))
-        self.bouton_d.config(command=lambda: self.reaction_bouton("D"))
+        self.bouton_a.config(command=lambda: self.reaction_bouton(f"{options[0]}"))
+        self.bouton_b.config(command=lambda: self.reaction_bouton(f"{options[1]}"))
+        self.bouton_c.config(command=lambda: self.reaction_bouton(f"{options[2]}"))
+        self.bouton_d.config(command=lambda: self.reaction_bouton(f"{options[3]}"))
 
         self.progress_bar = ttk.Progressbar(self.fenetre, mode="determinate", length=self.largeur)
         self.progress_bar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
@@ -68,6 +67,7 @@ class afficher_interface:
         self.fenetre.grid_columnconfigure(3, weight=1)
 
     def mise_a_jour_minuteur(self):
+
         while self.temps_restant >= 0:
             pourcentage_restant = (self.temps_restant / self.temps_total) * 100
             self.progress_bar["value"] = pourcentage_restant
@@ -87,8 +87,31 @@ class afficher_interface:
         self.afficher_score()
 
     def reaction_bouton(self, choix):
-        print(f"Bouton {choix} pressé")
+        if choix == self.correct_answer:
+            self.int_score += 1
+            self.label_score.config(text=f"Score : {self.int_score}")
+            self.int_vie = 3
+
+
+        self.int_vie -= 1
         self.temps_restant = self.temps_total + 1
+        if self.int_vie == 0:
+            self.temps_restant = 0
+
+        theme, question, options, correct_answer = get_random_question(load_questions_from_json('questions.json'))
+
+        self.label_question.config(text=question)
+        self.bouton_a.config(text=f"A) {options[0]}")
+        self.bouton_b.config(text=f"B) {options[1]}")
+        self.bouton_c.config(text=f"C) {options[2]}")
+        self.bouton_d.config(text=f"D) {options[3]}")
+
+        self.bouton_a.config(command=lambda: self.reaction_bouton(f"{options[0]}"))
+        self.bouton_b.config(command=lambda: self.reaction_bouton(f"{options[1]}"))
+        self.bouton_c.config(command=lambda: self.reaction_bouton(f"{options[2]}"))
+        self.bouton_d.config(command=lambda: self.reaction_bouton(f"{options[3]}"))
+
+        self.correct_answer = correct_answer
 
     def afficher_score(self):
         # Affiche le score dans la même fenêtre
