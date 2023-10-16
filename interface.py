@@ -2,9 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import time
-
+import json
 from questions import load_questions_from_json, get_random_question
 from scoring import Score
+from save import ScoreRepository
 
 class afficher_interface:
     def __init__(self):
@@ -121,24 +122,28 @@ class afficher_interface:
 
         self.correct_answer = correct_answer
     def afficher_score(self):
-        # Affiche le score dans la même fenêtre
-        self.leaderboard = [
-            ["Joueur 1", 457],
-            ["Joueur 2", 256],
-            ["Joueur 3", 253],
-            ["Joueur 4", 224],
-            ["Joueur 5", 189],
-            ["Joueur 6", 180],
-            ["Joueur 7", 176],
-            ["Joueur 8", 145],
-            ["Joueur 9", 142],
-            ["Joueur 10", 130]
-        ]
+        # Charger les scores depuis le fichier JSON
+        try:
+            with open('scores.json', 'r') as scores_file:
+                scores_data = json.load(scores_file)
+        except FileNotFoundError:
+            scores_data = {"scores": []}
 
+        # Trier les scores par ordre décroissant
+        scores_data["scores"].sort(key=lambda x: x["score"], reverse=True)
+
+        # Prendre les 5 meilleurs scores
+        top_scores = scores_data["scores"][:5]
+
+        # Créer une chaîne de texte avec les meilleurs scores
         leaderboard_text = "#•• LEADERBOARD ••#\n\n"
-        for joueur, score in self.leaderboard:
-            leaderboard_text += f"{joueur} : {score}\n"
+        for entry in top_scores:
+            leaderboard_text += f"{entry['pseudo']} : {entry['score']}\n"
         leaderboard_text += "\n#•••••••••••••••••••#"
+
+        # Afficher le leaderboard dans la fenêtre
+        if self.label_leaderboard:
+            self.label_leaderboard.destroy()
 
         self.label_leaderboard = tk.Label(
             self.fenetre,
@@ -146,17 +151,34 @@ class afficher_interface:
             fg="white",
             bg=self.couleur_fond
         )
-
-        self.label_score_final = tk.Label(self.fenetre, text=f"Score final : {self.int_score}", fg="white", bg=self.couleur_fond)
-
-        self.entry_nom_joueur = tk.Entry(self.fenetre)
-        self.bouton_enregistrer = tk.Button(self.fenetre, text="Enregistrer le score", width=15, height=1,
-                                            bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
-        self.bouton_recommencer = tk.Button(self.fenetre, text="Recommencer", width=12, height=1,
-                                            bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
-
         self.label_leaderboard.grid(row=1, column=0, padx=300, pady=10, columnspan=1)
-        self.label_score_final.grid(row=2, column=0, padx=300, pady=10, columnspan=1)
+        # Créer une entrée de texte pour le nom du joueur
+        self.entry_nom_joueur = tk.Entry(self.fenetre)
         self.entry_nom_joueur.grid(row=3, column=0, padx=0, pady=10, columnspan=2)
+
+        # Créer un bouton pour sauvegarder le score
+        self.bouton_enregistrer = tk.Button(
+            self.fenetre,
+            text="Sauvegarder le score",
+            width=15,
+            height=1,
+            bg=self.couleur_gris_sombre,
+            fg=self.couleur_texte_bouton,
+            command=self.sauvegarder_score
+        )
         self.bouton_enregistrer.grid(row=4, column=0, padx=5, pady=0)
-        self.bouton_recommencer.grid(row=5, column=0, padx=5, pady=20)
+
+    def sauvegarder_score(self):
+        pseudo_joueur = self.entry_nom_joueur.get()
+        if not pseudo_joueur:
+            pseudo_joueur = "Joueur Anonyme"  # Utilisateur anonyme si le champ est vide
+
+        # Enregistrer le score en utilisant la classe ScoreRepository
+        score_repo = ScoreRepository("scores.json")
+        score_repo.ajouter_score(self.int_score, pseudo_joueur)
+
+        # Afficher un message pour indiquer que le score a été enregistré
+        self.label_leaderboard.config(text=f"Score enregistré\n pour {pseudo_joueur} !")
+
+        # Désactiver le bouton "Sauvegarder le score" après l'enregistrement
+        self.bouton_enregistrer.config(state="disabled")
