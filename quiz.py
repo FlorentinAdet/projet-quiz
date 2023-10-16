@@ -1,9 +1,8 @@
-from interface import afficher_interface
+from bonus import create_question_window
 
 def main():
+    create_question_window()
 
-    app = afficher_interface()
-    app.fenetre.mainloop()
 
 if __name__ == "__main__":
     main()

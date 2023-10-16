@@ -3,6 +3,7 @@ import random
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from interface import afficher_interface
 
 class Question:
     def __init__(self, question, difficulty, options,  theme, correct_answer):
@@ -22,6 +23,9 @@ class Question:
         }
         return new_question
 
+def lancerPartie():
+    app = afficher_interface()
+    app.fenetre.mainloop()
 
 def create_question():
     # Récupérer les entrées de l'utilisateur du formulaire
@@ -165,6 +169,7 @@ main_window.title("Quiz Game")
 main_window.geometry("720x480")
 
 launch_button = tk.Button(main_window, text="Lancer une partie")
+launch_button.config(command=lambda:lancerPartie())
 launch_button.pack()
 
 create_question_button = tk.Button(main_window, text="Créer une question", command=create_question_window)
@@ -172,15 +177,3 @@ create_question_button.pack()
 
 main_window.mainloop()
 
-def main():
-    create_question_window()
-    #print("\nCréation d'une nouvelle question :")
-    #new_question = create_question()
-    #add_question_to_json(new_question, "Geography")
-    #print("\nQuestion ajoutée avec succès !")
-
-    #print(f"\nQuestion : {new_question}")
-
-
-if __name__ == "__main__":
-    main()

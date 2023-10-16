@@ -88,7 +88,6 @@ class afficher_interface:
         self.label_minuteur.destroy()
         self.progress_bar.destroy()
         self.afficher_score()
-
     def reaction_bouton(self, choix):
         if choix == self.correct_answer:
             points = self.score.attribuer_points(self.difficulty)
