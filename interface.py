@@ -34,7 +34,7 @@ class afficher_interface:
         self.label_score = tk.Label(self.fenetre, text=f"Vie : {self.int_vie} | Score : {self.int_score}", fg="white", bg=self.couleur_fond)
         self.label_score.grid(row=0, column=1, sticky="ne", padx=10, pady=10)
 
-        self.label_question = tk.Label(self.fenetre, text=f"{question}\n\nDifficulty : {difficulty}/3", fg="white", bg=self.couleur_fond)
+        self.label_question = tk.Label(self.fenetre, text=f"{question}\nTheme : {theme}\nDifficulty : {difficulty}/3", fg="white", bg=self.couleur_fond)
         self.label_question.grid(row=0, column=0, columnspan=2, padx=10, pady=50)
 
         self.bouton_a = tk.Button(self.fenetre, text=f"A) {options[0]}", width=30, height=2, bg=self.couleur_gris_sombre, fg=self.couleur_texte_bouton)
@@ -70,6 +70,7 @@ class afficher_interface:
         self.fenetre.grid_columnconfigure(3, weight=1)
         self.score = Score()
         self.correct_answer = None
+
     def mise_a_jour_minuteur(self):
 
         while self.temps_restant >= 0:
@@ -89,6 +90,7 @@ class afficher_interface:
         self.label_minuteur.destroy()
         self.progress_bar.destroy()
         self.afficher_score()
+
     def reaction_bouton(self, choix):
         if choix == self.correct_answer:
             points = self.score.attribuer_points(self.difficulty)
@@ -109,7 +111,7 @@ class afficher_interface:
 
         theme, question, options, correct_answer, difficulty = get_random_question(load_questions_from_json('questions.json'))
 
-        self.label_question.config(text=f"{question}\n\nDifficulty : {difficulty}/3")
+        self.label_question.config(text=f"{question}\nTheme : {theme}\nDifficulty : {difficulty}/3")
         self.bouton_a.config(text=f"A) {options[0]}")
         self.bouton_b.config(text=f"B) {options[1]}")
         self.bouton_c.config(text=f"C) {options[2]}")
@@ -121,6 +123,7 @@ class afficher_interface:
         self.bouton_d.config(command=lambda: self.reaction_bouton(f"{options[3]}"))
 
         self.correct_answer = correct_answer
+
     def afficher_score(self):
         # Charger les scores depuis le fichier JSON
         try:
@@ -160,7 +163,7 @@ class afficher_interface:
         self.bouton_enregistrer = tk.Button(
             self.fenetre,
             text="Sauvegarder le score",
-            width=15,
+            width=20,
             height=1,
             bg=self.couleur_gris_sombre,
             fg=self.couleur_texte_bouton,

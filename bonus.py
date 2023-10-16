@@ -168,12 +168,18 @@ main_window = tk.Tk()
 main_window.title("Quiz Game")
 main_window.geometry("720x480")
 
+couleur_fond = "#2F2F3F"
+couleur_texte_bouton = "white"
+main_window.config(bg=couleur_fond)
+
 launch_button = tk.Button(main_window, text="Lancer une partie")
 launch_button.config(command=lambda:lancerPartie())
-launch_button.pack()
+launch_button.grid(row=1, column=0, padx=310, pady=40)
+#launch_button.pack()
 
 create_question_button = tk.Button(main_window, text="Créer une question", command=create_question_window)
-create_question_button.pack()
+create_question_button.grid(row=3, column=0, padx=300, pady=0)
+#create_question_button.pack()
 
 main_window.mainloop()
 
